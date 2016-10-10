@@ -239,7 +239,9 @@ class Rhn(RegistrationBase):
             Register system to RHN.  If enable_eus=True, extended update
             support will be requested.
         '''
-        register_cmd = ['/usr/sbin/rhnreg_ks', '--username', self.username, '--password', self.password, '--force']
+        register_cmd = ['/usr/sbin/rhnreg_ks', '--force']
+        if self.username and self.password:
+            register_cmd.extend(['--username', self.username, '--password', self.password])
         if self.module.params.get('server_url', None):
             register_cmd.extend(['--serverUrl', self.module.params.get('server_url')])
         if enable_eus:
